@@ -34,9 +34,9 @@ app.use('/uploads', express.static('uploads'));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
-// app.use('/api/users', require('./routes/users'));
-// app.use('/api/food', require('./routes/food'));
-// app.use('/api/orders', require('./routes/orders'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/food', require('./routes/food'));
+app.use('/api/orders', require('./routes/orders'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -52,35 +52,40 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 404 handler
-app.use('*', (req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
+// 404 handler - removed for now to debug
 
 // MongoDB connection
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(
-      process.env.MONGODB_URI || 'mongodb://localhost:27017/food_app',
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      }
+      process.env.MONGODB_URI || 'mongodb://localhost:27017/food_app'
     );
     console.log(`MongoDB Connected: ${conn.connection.host}`);
+    return true;
   } catch (error) {
-    console.error('Database connection failed:', error);
-    process.exit(1);
+    console.error('Database connection failed:', error.message);
+    console.log('Continuing without database...');
+    return false;
   }
 };
 
 // Start server
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
+connectDB().then((connected) => {
+  if (connected) {
+    console.log('Database connected successfully');
+  } else {
+    console.log('Running without database - some features may not work');
+  }
+  
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(`Health check: http://localhost:${PORT}/health`);
   });
+}).catch((error) => {
+  console.error('Failed to start server:', error);
+  process.exit(1);
 });
 
 module.exports = app;

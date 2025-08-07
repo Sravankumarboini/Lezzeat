@@ -12,12 +12,12 @@
     "server": "cd backend && npm run dev",
     "client": "npm run dev",
     "dev:full": "concurrently \"npm run server\" \"npm run client\"",
-    "cap:init": "npx cap init",
-    "cap:add:android": "npx cap add android",
-    "cap:add:ios": "npx cap add ios",
-    "cap:sync": "npx cap sync",
-    "cap:open:android": "npx cap open android",
-    "cap:open:ios": "npx cap open ios"
+    "cap:init": "cap init",
+    "cap:add:android": "cap add android",
+    "cap:add:ios": "cap add ios",
+    "cap:sync": "cap sync",
+    "cap:open:android": "cap open android",
+    "cap:open:ios": "cap open ios"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.2",
