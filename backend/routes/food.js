@@ -40,32 +40,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// @desc    Get food item by ID
-// @route   GET /api/food/:id
-// @access  Public
-router.get('/:id', async (req, res) => {
-  try {
-    const food = await Food.findById(req.params.id);
-    
-    if (!food) {
-      return res.status(404).json({
-        success: false,
-        message: 'Food item not found'
-      });
-    }
-    
-    res.status(200).json({
-      success: true,
-      data: food
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
-  }
-});
-
 // @desc    Get food categories
 // @route   GET /api/food/categories/list
 // @access  Public
@@ -99,6 +73,32 @@ router.get('/specials/today', async (req, res) => {
       success: true,
       count: specials.length,
       data: specials
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// @desc    Get food item by ID
+// @route   GET /api/food/:id
+// @access  Public
+router.get('/:id', async (req, res) => {
+  try {
+    const food = await Food.findById(req.params.id);
+    
+    if (!food) {
+      return res.status(404).json({
+        success: false,
+        message: 'Food item not found'
+      });
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: food
     });
   } catch (error) {
     res.status(500).json({

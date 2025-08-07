@@ -34,9 +34,9 @@ app.use('/uploads', express.static('uploads'));
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/food', require('./routes/food'));
-app.use('/api/orders', require('./routes/orders'));
+// app.use('/api/users', require('./routes/users'));
+// app.use('/api/food', require('./routes/food'));
+// app.use('/api/orders', require('./routes/orders'));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
